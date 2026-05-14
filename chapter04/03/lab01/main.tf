@@ -1,4 +1,4 @@
-resource "aws_s3_bucket" "this" {
+resource "aws_s3_bucket" "this" {  #s3 설치
   bucket = local.s3bucket.bucket
 
   tags = {
@@ -6,7 +6,7 @@ resource "aws_s3_bucket" "this" {
   }
 
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = true  #true걸면 삭제 방지, false로 만들면 terraform destroy 시 없어짐.
   }
 }
 
