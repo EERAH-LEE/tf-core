@@ -43,7 +43,7 @@ resource "aws_security_group" "this" {
   }
 }
 
-resource "aws_instance" "this" {
+resource "aws_instance" "web" {
   ami                         = local.instance.ami
   instance_type               = local.instance.instance_type
   associate_public_ip_address = local.instance.associate_public_ip_address
@@ -53,7 +53,7 @@ resource "aws_instance" "this" {
   iam_instance_profile   = aws_iam_instance_profile.this.name
 
   user_data_replace_on_change = true   #
-  user_data = local.instance.user_data
+  user_data_base64 = local.instance.user_data_base64
 
   depends_on = [aws_iam_role_policy_attachment.this]
 

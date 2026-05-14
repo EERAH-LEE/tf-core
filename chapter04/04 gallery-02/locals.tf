@@ -13,7 +13,7 @@ locals {
     associate_public_ip_address = true
     subnet_id                   = data.aws_subnets.default.ids[0]
 
-    user_data = base64encode(templatefile("templates/user_data.sh.tpl",{
+    user_data_base64 = base64encode(templatefile("templates/user_data.sh.tpl",{
       server_port = 80
       profile = "dev"
     }))
