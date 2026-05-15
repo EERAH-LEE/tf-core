@@ -8,6 +8,10 @@ locals {
     enable_dns_support = true
   }
 
+  natgw = {
+    name = "eerah"
+  }
+
   public_subnet = [
   {
     name = "public-a"
@@ -24,5 +28,19 @@ locals {
   }
   ]
 
+  private_subnet = [
+  {
+    name = "private-c"
 
+    cidr_block = "10.0.101.0/24"
+    availability_zone = "ap-northeast-2c"
+    map_public_ip_on_launch = false
+  },
+  {
+    name = "private-d"
+    cidr_block = "10.0.102.0/24"
+    availability_zone = "ap-northeast-2d"
+    map_public_ip_on_launch = false
+  }
+  ]
 }
