@@ -12,6 +12,7 @@ module "platform" {
     module.network.subnet["public-a"].id, 
     module.network.subnet["public-b"].id
     ]
+  lb_target_group_port = local.infra.lt.service_port
 }
 
 module "workload" {
@@ -25,6 +26,7 @@ module "workload" {
     ]
 
   asg_target_group_arns = [module.platform.lb["main"].target_group.arn]
+  
   lt_iam_instance_profile_name = module.platform.iamprofile["instance"].name
 
   lt_allow_access_cidr_blocks = [
@@ -32,4 +34,5 @@ module "workload" {
     module.network.subnet["public-b"].cidr_blocks
     ]
 
+  lt_service_port = local.infra.lt.service_port
 }

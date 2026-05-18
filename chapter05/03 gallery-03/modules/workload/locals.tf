@@ -32,11 +32,11 @@ locals {
 
     user_data = base64encode(templatefile("${path.module}/templates/user_data.sh.tpl", {
       profile =  "dev"
-      server_port = 8080
+      server_port = var.lt_service_port
     }))
 
     allow_access = {
-      port = 8080
+      port = var.lt_service_port
       cidr_blocks = var.lt_allow_access_cidr_blocks  
     }  
   }

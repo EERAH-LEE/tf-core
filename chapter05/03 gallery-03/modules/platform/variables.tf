@@ -9,3 +9,7 @@ variable "vpc_id" {
 variable "lb_subnets" {
   type = list(string)
 }
+
+variable "lb_target_group_port" {
+  type = number
+}

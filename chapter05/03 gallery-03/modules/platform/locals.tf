@@ -23,13 +23,13 @@ locals {
     }
 
     target_group = { #workload쪽과 platform쪽 포트를 일치시킨다.
-      port        = 8080
+      port        = var.lb_target_group_port
       protocol    = "HTTP"
       target_type = "instance"
 
       health_check = {
         enabled             = true
-        port                = 8080
+        port                = var.lb_target_group_port
         protocol            = "HTTP"
         path                = "/actuator/health"  #참조.
         healthy_threshold   = 3   #3번 성공

@@ -21,3 +21,7 @@ variable "lt_iam_instance_profile_name" {
 variable "lt_allow_access_cidr_blocks" {
   type = list(string)
 }
+
+variable "lt_service_port" {
+  type = number  
+}
