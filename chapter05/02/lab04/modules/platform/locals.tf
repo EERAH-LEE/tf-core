@@ -23,7 +23,7 @@ locals {
     }
 
     target_group = { #workload쪽과 platform쪽 포트를 일치시킨다.
-      port        = 8080
+      port        = 80
       protocol    = "HTTP"
       target_type = "instance"
 
@@ -32,8 +32,8 @@ locals {
         port                = 80
         protocol            = "HTTP"
         path                = "/"
-        healthy_threshold   = 3
-        unhealthy_threshold = 3
+        healthy_threshold   = 3   #3번 성공
+        unhealthy_threshold = 3   #3번 실패
         timeout             = 5
         interval            = 30
       }

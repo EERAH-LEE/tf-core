@@ -30,16 +30,16 @@ locals {
 
   private_subnet = [
   {
-    name = "private-c"
+    name = "private-a"
 
     cidr_block = "10.0.101.0/24"
-    availability_zone = "ap-northeast-2c"
+    availability_zone = "ap-northeast-2a"
     map_public_ip_on_launch = false
   },
   {
-    name = "private-d"
+    name = "private-b"
     cidr_block = "10.0.102.0/24"
-    availability_zone = "ap-northeast-2d"
+    availability_zone = "ap-northeast-2b"
     map_public_ip_on_launch = false
   }
   ]
