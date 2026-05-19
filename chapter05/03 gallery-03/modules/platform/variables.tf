@@ -13,3 +13,7 @@ variable "lb_subnets" {
 variable "lb_target_group_port" {
   type = number
 }
+
+variable "lb_listener_port" {
+  type = number
+}

@@ -14,6 +14,10 @@ variable "asg_target_group_arns" {
   type = list(string)
 }
 
+variable "asg_deploy_version" {
+  type = string
+}
+
 variable "lt_iam_instance_profile_name" {
   type = string 
 }

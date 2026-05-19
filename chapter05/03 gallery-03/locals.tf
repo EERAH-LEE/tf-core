@@ -6,6 +6,14 @@ locals {
     lt = {
       service_port = 8080
     }
+    
+    lb = {
+      listener_port = 80
+    }
+
+    asg = {
+      deploy_version = "1.0.0"
+    }
   }
 }
   

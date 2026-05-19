@@ -17,7 +17,7 @@ locals {
     subnets            = var.lb_subnets
 
     listener = {
-      port        = 80
+      port        = var.lb_listener_port
       protocol    = "HTTP"
       cidr_blocks = ["0.0.0.0/0"]
     }

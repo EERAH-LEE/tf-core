@@ -16,7 +16,8 @@ locals {
     health_check_type         = "ELB" #ELB가 사용하는 Health Check를 나도 사용하겠다.
     health_check_grace_period = 600
 
-    deploy_version = "1.0.0" #여기 바꾸고, 태그 수정해야지 바뀜.
+    deploy_version = var.asg_deploy_version 
+    #여기 바꾸고, 태그 수정해야지 바뀜.
   }
 
 
