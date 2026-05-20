@@ -1,0 +1,47 @@
+#Github Actions가 인식하여 자동화를 수행하게 만드는 정의서 (CI/CD 파이프라인 설정 파일)
+#확장자가 .yaml 또는 .yml인 YAML 포맷의 텍스트 파일
+#프로젝트의 .github/workflow/ 디렉터리 내에 위치 시켜 사용
+
+
+name: 10.01.lab01 review
+# 깃허브 액션탭에 표시될 workflow의 식별 이름을 정의
+
+on:
+  pull_request:                #main branch에 PR 한다는 말.
+    branches: [main]
+    types: [opened, synchronize]
+    paths: ["chapter10/01/lab01/*.tf"]
+#이 스크립트가 언제 트러거시킬지 제어하는 이벤트 listener 구문
+
+
+env:
+  TF_VERSION: "1.14.7"
+  WORKING_DIR: "chapter10/01/lab01"   # 여기서 작업해라.
+#테라폼의 버전관리
+
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest    #docker파일 아님, 이미지를 어떤걸 쓸거냐는 거.
+    defaults:
+      run:
+        working-directory: ${{ env.WORKING_DIR }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4   # gitaction의 도구, 쓸거 찾아서 넣으면 됨.
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v4
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan
+
+      - name: Fail if Plan Failed
+        if: steps.plan.outcome == 'failure'   #fail 나면, 끝내라.
+        run: exit 1
