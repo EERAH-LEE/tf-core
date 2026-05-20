@@ -6,27 +6,30 @@
 name: 10.01.lab01 review
 # 깃허브 액션탭에 표시될 workflow의 식별 이름을 정의
 
-on:
+on:     #이 스크립트가 언제 트러거시킬지 제어하는 이벤트 listener 구문
   pull_request:                #main branch에 PR 한다는 말.
     branches: [main]
-    types: [opened, synchronize]
+    types: [opened, synchronize]  
+    #PR이 처음 생성되었을 때(opened), 혹은 기존 PR 브랜치에 코드가 추가 푸시되어 동기화되었을 때(synchronize) 트리거됩니다.
     paths: ["chapter10/01/lab01/*.tf"]
-#이 스크립트가 언제 트러거시킬지 제어하는 이벤트 listener 구문
+    #오직 chapter10/01/lab01 디렉터리 내부의 테라폼 파일(.tf)들이 수정되었을 때만 파이프라인을 작동시킵니다. (다른 파일이 바뀌면 리소스 낭비를 막기 위해 패스합니다.)
 
 
 env:
   TF_VERSION: "1.14.7"
   WORKING_DIR: "chapter10/01/lab01"   # 여기서 작업해라.
 #테라폼의 버전관리
-
+#workflow 전체 영역에서 전역적으로 재사용할 환경 변수를 선언하는 블록
 
 jobs:
   plan:
-    runs-on: ubuntu-latest    #docker파일 아님, 이미지를 어떤걸 쓸거냐는 거.
+    runs-on: ubuntu-latest    #docker파일 아님, 깃허브가 제공하는 가상머신의 운영체제를 지정.
     defaults:
       run:
         working-directory: ${{ env.WORKING_DIR }}
+        #job 하위에서 실행되는 모든 터미널 명령어들의 기본 작업 디렉터리를 아까 선언한 환경 변수 경로로 고정하는 설정
     steps:
+      # 선언한 가상 머신 내부에서 순차적으로 실행할 원자적 작업 단계들의 배열 시작점.
       - name: Checkout
         uses: actions/checkout@v4   # gitaction의 도구, 쓸거 찾아서 넣으면 됨.
 
@@ -34,14 +37,18 @@ jobs:
         uses: hashicorp/setup-terraform@v4
         with:
           terraform_version: ${{ env.TF_VERSION }}
+          # 하시코프 액션도구 로드. 1.14.7 버전의 테라폼 CLI 도구를 설치 및 바이너리 path 세팅
 
       - name: Terraform Init
         run: terraform init
+        # 테라폼 코드가 참조하는 provider 플러그인과 모듈을 다운로드하여 작업 디렉터리를 초기화
 
       - name: Terraform Plan
         id: plan
         run: terraform plan
+        #아키텍처의 변경 사항을 미리 예측하는 Dry-run 명령어 수행
+        # id:plan은 이 단계의 실행 결과 상태를 다음 스텝에서 참조할 수 있도록 고유 식별자를 부여한 것.
 
       - name: Fail if Plan Failed
-        if: steps.plan.outcome == 'failure'   #fail 나면, 끝내라.
+        if: steps.plan.outcome == 'failure'   #fail 나면, 강제 종료코드 1 뱉고 가라.
         run: exit 1

@@ -3,5 +3,5 @@ locals {
   project   = "lab01"
   namespace = "${local.org}-${local.project}"
 
-  message = "hello world from ${local.namespace}"
+  message = " HI HI HI World${local.namespace}"
 }
