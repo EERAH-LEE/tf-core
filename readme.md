@@ -20,5 +20,9 @@ $ git push origin feature/<name>
 
 ```
 $ git checkout main
-$ git
+$ git pull origin main
+
+$ git push origin --delete feature/<name>
+$ git branch -D  #강제 삭제 명령 
+$ git branch -d feature/<name>
 ```
